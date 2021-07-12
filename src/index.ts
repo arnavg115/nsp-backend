@@ -15,12 +15,15 @@ import { EditionResolver } from "./EditionResolver";
 import { EmailResolver } from "./EmailResolver";
 import sgMail from "@sendgrid/mail";
 
-console.log("Hello");
 (async () => {
   const app = express();
   app.use(
     cors({
-      origin: "http://localhost:3000",
+      origin: [
+        "http://localhost:3000",
+        "https://new-solutions-project.vercel.app",
+        process.env.BACKEND!,
+      ],
       credentials: true,
     })
   );
@@ -28,6 +31,9 @@ console.log("Hello");
   app.use(cookieParser());
 
   sgMail.setApiKey(process.env.SG_API_KEY!);
+  app.get("/", (_, res) => {
+    res.status(200).send("Hello");
+  });
   app.post("/refresh_token", async (req, res) => {
     const token = req.cookies.jid;
 
@@ -70,6 +76,7 @@ console.log("Hello");
       migrationsDir: "src/migration",
       subscribersDir: "src/subscriber",
     },
+    // Comment out before deployment to work with Heroku postgres
     ssl: true,
     extra: {
       ssl: {
@@ -100,21 +107,3 @@ console.log("Hello");
   });
   // }
 })();
-
-// createConnection()
-//   .then(async (connection) => {
-//     console.log('Inserting a new user into the database...')
-//     const user = new User()
-//     user.firstName = 'Timber'
-//     user.lastName = 'Saw'
-//     user.age = 25
-//     await connection.manager.save(user)
-//     console.log('Saved a new user with id: ' + user.id)
-
-//     console.log('Loading users from the database...')
-//     const users = await connection.manager.find(User)
-//     console.log('Loaded users: ', users)
-
-//     console.log('Here you can setup and run express/koa/any other framework.')
-//   })
-//   .catch((error) => console.log(error))

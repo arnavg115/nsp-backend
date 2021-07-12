@@ -6,13 +6,11 @@ import {
   ObjectType,
   Field,
   Ctx,
-  UseMiddleware,
 } from "type-graphql";
 import { hash, compare } from "bcryptjs";
 import { User } from "./entity/User";
 import { MyContext } from "./MyContext";
 import { createAccessToken, createRefreshToken } from "./auth";
-import { isAuth } from "./isAuth";
 import { sendRefreshToken } from "./sendRefreshToken";
 import { verify } from "jsonwebtoken";
 import { admins } from "./entity/Admins";
@@ -32,16 +30,16 @@ export class UserResolver {
     return "Hi!";
   }
 
-  @Query(() => String)
-  @UseMiddleware(isAuth)
-  bye(@Ctx() { payload }: MyContext) {
-    return `Your user id is: ${payload!.userId}`;
-  }
+  // @Query(() => String)
+  // @UseMiddleware(isAuth)
+  // bye(@Ctx() { payload }: MyContext) {
+  //   return `Your user id is: ${payload!.userId}`;
+  // }
 
-  @Query(() => [User])
-  users() {
-    return User.find();
-  }
+  // @Query(() => [User])
+  // users() {
+  //   return User.find();
+  // }
 
   @Query(() => User, { nullable: true })
   async me(@Ctx() context: MyContext) {
