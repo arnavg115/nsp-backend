@@ -14,6 +14,8 @@ import { sendRefreshToken } from "./sendRefreshToken";
 import { EditionResolver } from "./EditionResolver";
 import { EmailResolver } from "./EmailResolver";
 import sgMail from "@sendgrid/mail";
+
+console.log("Hello");
 (async () => {
   const app = express();
   app.use(
@@ -55,7 +57,20 @@ import sgMail from "@sendgrid/mail";
     return res.send({ ok: true, accessToken: createAccessToken(user) });
   });
 
-  await createConnection();
+  await createConnection({
+    type: "postgres",
+    url: process.env.POSTGRES_URI,
+    synchronize: true,
+    logging: false,
+    entities: ["src/entity/**/*.ts"],
+    migrations: ["src/migration/**/*.ts"],
+    subscribers: ["src/subscriber/**/*.ts"],
+    cli: {
+      entitiesDir: "src/entity",
+      migrationsDir: "src/migration",
+      subscribersDir: "src/subscriber",
+    },
+  });
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
@@ -75,7 +90,7 @@ import sgMail from "@sendgrid/mail";
   // } else {
   const P = process.env.PORT ? parseInt(process.env.PORT) : 4000;
   app.listen(P, () => {
-    console.log("Express server started on port 4000");
+    console.log("Express server started on port " + P);
   });
   // }
 })();
