@@ -73,7 +73,8 @@ import sgMail from "@sendgrid/mail";
   //     console.log("Express server started on port 4000");
   //   });
   // } else {
-  app.listen(4000, "0.0.0.0", () => {
+  const P = process.env.PORT ? parseInt(process.env.PORT) : 4000;
+  app.listen(P, () => {
     console.log("Express server started on port 4000");
   });
   // }
