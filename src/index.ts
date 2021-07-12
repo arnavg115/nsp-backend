@@ -22,7 +22,7 @@ import sgMail from "@sendgrid/mail";
       origin: [
         "http://localhost:3000",
         "https://new-solutions-project.vercel.app",
-        process.env.BACKEND!,
+        "https://nsp-frontend.vercel.app",
       ],
       credentials: true,
     })
