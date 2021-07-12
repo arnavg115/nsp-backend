@@ -68,10 +68,15 @@ import sgMail from "@sendgrid/mail";
   });
 
   apolloServer.applyMiddleware({ app, cors: false });
-
-  app.listen(4000, () => {
+  // if (process.env.NODE_ENV === "production") {
+  //   app.listen(4000, () => {
+  //     console.log("Express server started on port 4000");
+  //   });
+  // } else {
+  app.listen(4000, "0.0.0.0", () => {
     console.log("Express server started on port 4000");
   });
+  // }
 })();
 
 // createConnection()
