@@ -70,6 +70,12 @@ console.log("Hello");
       migrationsDir: "src/migration",
       subscribersDir: "src/subscriber",
     },
+    ssl: true,
+    extra: {
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    },
   });
 
   const apolloServer = new ApolloServer({
