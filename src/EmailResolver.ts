@@ -28,6 +28,7 @@ export class EmailResolver {
   }
 
   @Mutation(() => Boolean)
+  @UseMiddleware(isAuth, isAdmin)
   async DeleteEmail(@Arg("email") email: string) {
     try {
       await Email.delete({ email });
